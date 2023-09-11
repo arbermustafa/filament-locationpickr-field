@@ -1,0 +1,31 @@
+.locationPickr {
+    min-height: 30vh;
+    z-index: 1 !important;
+}
+
+div.location-div {
+    margin: 10px;
+}
+
+button.location-button {
+    background: rgb(255, 255, 255);
+    display: table-cell;
+    border: 0px none;
+    margin: 0px;
+    padding: 0px 17px;
+    cursor: pointer;
+    text-align: center;
+    height: 40px;
+    vertical-align: middle;
+    color: rgb(86, 86, 86);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 18px;
+    border-radius: 2px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    min-width: 66px;
+}
+
+button.location-button:hover {
+    background: rgb(235, 235, 235) padding-box;
+    color: rgb(0, 0, 0);
+}

@@ -14,5 +14,6 @@ esbuild
         platform: 'neutral',
         mainFields: ['module', 'main'],
         watch: isDev,
+        minify: !isDev,
     })
     .catch(() => process.exit(1))

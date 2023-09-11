@@ -1,12 +1,12 @@
 import { Loader } from '@googlemaps/js-api-loader'
 
 export default (Alpine) => {
-    Alpine.data('locationPickr', ({ mapEl, config }) => ({
+    Alpine.data('locationPickr', ({ location, config }) => ({
+        location: null,
         loader: null,
         map: null,
         marker: null,
         markerLocation: null,
-        mapEl: null,
         infoWindow: null,
         config: {
             draggable: true,
@@ -28,37 +28,31 @@ export default (Alpine) => {
             myLocationLabel: '',
             apiKey: '',
         },
-
         init: function () {
-            this.mapEl = mapEl
+            this.location = location
             this.config = { ...this.config, ...config }
             this.loadGmaps()
+            this.$watch('location', (value) => this.updateMapFromAlpine())
         },
-
         loadGmaps: function () {
             this.loader = new Loader({
                 apiKey: this.config.apiKey,
                 version: 'weekly',
             })
-
             this.loader
                 .load()
-                .then(async () => {
-                    this.map = new google.maps.Map(this.mapEl, {
+                .then((google) => {
+                    this.map = new google.maps.Map(this.$refs.map, {
                         center: this.getCoordinates(),
                         zoom: this.config.defaultZoom,
                         ...this.config.controls,
                     })
-
                     this.infoWindow = new google.maps.InfoWindow()
-
                     this.marker = new google.maps.Marker({
                         draggable: this.config.draggable,
                         map: this.map,
                     })
-
                     this.marker.setPosition(this.getCoordinates())
-
                     if (this.config.clickable) {
                         this.map.addListener('click', (event) => {
                             this.markerLocation = event.latLng.toJSON()
@@ -66,7 +60,6 @@ export default (Alpine) => {
                             this.map.panTo(this.markerLocation)
                         })
                     }
-
                     if (this.config.draggable) {
                         google.maps.event.addListener(
                             this.marker,
@@ -78,11 +71,9 @@ export default (Alpine) => {
                             },
                         )
                     }
-
                     const locationButtonDiv = document.createElement('div')
                     locationButtonDiv.classList.add('location-div')
                     locationButtonDiv.appendChild(this.createLocationButton())
-
                     this.map.controls[
                         google.maps.ControlPosition.TOP_LEFT
                     ].push(locationButtonDiv)
@@ -91,16 +82,13 @@ export default (Alpine) => {
                     console.error('Error loading Google Maps API:', error)
                 })
         },
-
         createLocationButton: function () {
             const locationButton = document.createElement('button')
             locationButton.type = 'button'
             locationButton.textContent = this.config.myLocationLabel
             locationButton.classList.add('location-button')
-
             locationButton.addEventListener('click', (event) => {
                 event.preventDefault()
-
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         (position) => {
@@ -127,14 +115,11 @@ export default (Alpine) => {
                     )
                 }
             })
-
             return locationButton
         },
-
         updateMapFromAlpine: function () {
             const location = this.getCoordinates()
             const markerLocation = this.marker.getPosition()
-
             if (
                 !(
                     location.lat === markerLocation.lat() &&
@@ -144,38 +129,30 @@ export default (Alpine) => {
                 this.updateMap(location)
             }
         },
-
         updateMap: function (position) {
             this.marker.setPosition(position)
             this.map.panTo(position)
         },
-
         setCoordinates: function (position) {
-            $wire.set(this.config.statePath, position)
+            this.$wire.set(this.config.statePath, position)
         },
-
         getCoordinates: function () {
-            let location = $wire.get(this.config.statePath)
-
+            let location = this.$wire.get(this.config.statePath)
             if (location === null || !location.hasOwnProperty('lat')) {
                 location = {
                     lat: this.config.defaultLocation.lat,
                     lng: this.config.defaultLocation.lng,
                 }
             }
-
             return location
         },
-
         myLocationError: function (browserHasGeolocation, infoWindow, pos) {
             infoWindow.setPosition(pos)
-
             infoWindow.setContent(
                 browserHasGeolocation
                     ? 'Error: The Geolocation service failed.'
                     : "Error: Your browser doesn't support geolocation.",
             )
-
             infoWindow.open(this.map)
         },
     }))

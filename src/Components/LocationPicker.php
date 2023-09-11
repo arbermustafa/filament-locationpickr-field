@@ -1,6 +1,6 @@
 <?php
 
-namespace ArberMustafa\FilamentLocationPickrField\Fields;
+namespace ArberMustafa\FilamentLocationPickrField\Components;
 
 use Closure;
 use Exception;
@@ -9,7 +9,7 @@ use JsonException;
 
 class LocationPicker extends Field
 {
-    protected string $view = 'filament-locationpickr-field::fields.locationpickr';
+    protected string $view = 'filament-locationpickr-field::components.locationpickr';
 
     protected int $precision = 8;
 
@@ -25,7 +25,7 @@ class LocationPicker extends Field
 
     protected Closure | string $height = '400px';
 
-    protected Closure | string $myLocationLabel = 'My location';
+    protected Closure | string | null $myLocationLabel = 'My location';
 
     private array $mapConfig = [
         'draggable' => true,
@@ -156,7 +156,13 @@ class LocationPicker extends Field
 
     public function getMyLocationLabel(): string
     {
-        return $this->evaluate($this->myLocationLabel);
+        $locationLabel = $this->evaluate($this->myLocationLabel);
+
+        if (filled($locationLabel)) {
+            return $locationLabel;
+        }
+
+        return config('filament-locationpickr-field.my_location_button');
     }
 
     /**

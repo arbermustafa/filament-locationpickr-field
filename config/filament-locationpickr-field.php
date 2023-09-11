@@ -7,7 +7,7 @@ return [
     | Default Plugin Options
     |--------------------------------------------------------------------------
     */
-    'key' => env('GMAPS_API_KEY', ''),
+    'key' => env('GMAP_API', ''),
 
     'default_location' => [
         'lat' => 41.32836109345274,
@@ -15,4 +15,6 @@ return [
     ],
 
     'default_zoom' => 12,
+
+    'my_location_button' => 'My location'
 ];
