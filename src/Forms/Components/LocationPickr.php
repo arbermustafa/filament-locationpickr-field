@@ -1,15 +1,15 @@
 <?php
 
-namespace ArberMustafa\FilamentLocationPickrField\Components;
+namespace ArberMustafa\FilamentLocationPickrField\Forms\Components;
 
 use Closure;
 use Exception;
 use Filament\Forms\Components\Field;
 use JsonException;
 
-class LocationPicker extends Field
+class LocationPickr extends Field
 {
-    protected string $view = 'filament-locationpickr-field::components.locationpickr';
+    protected string $view = 'filament-locationpickr-field::forms.components.locationpickr';
 
     protected int $precision = 8;
 
@@ -25,7 +25,7 @@ class LocationPicker extends Field
 
     protected Closure | string $height = '400px';
 
-    protected Closure | string | null $myLocationLabel = 'My location';
+    protected Closure | string | null $myLocationButtonLabel = 'My location';
 
     private array $mapConfig = [
         'draggable' => true,
@@ -37,7 +37,7 @@ class LocationPicker extends Field
         'controls' => [],
         'statePath' => '',
         'defaultZoom' => 8,
-        'myLocationLabel' => '',
+        'myLocationButtonLabel' => '',
         'apiKey' => '',
     ];
 
@@ -47,7 +47,6 @@ class LocationPicker extends Field
         'streetViewControl' => true,
         'rotateControl' => true,
         'fullscreenControl' => true,
-        'searchBoxControl' => false,
         'zoomControl' => false,
     ];
 
@@ -147,19 +146,19 @@ class LocationPicker extends Field
         return $this->evaluate($this->height);
     }
 
-    public function myLocationLabel(Closure | string $label): static
+    public function myLocationButtonLabel(Closure | string $label): static
     {
-        $this->myLocationLabel = $label;
+        $this->myLocationButtonLabel = $label;
 
         return $this;
     }
 
-    public function getMyLocationLabel(): string
+    public function getMyLocationButtonLabel(): string
     {
-        $locationLabel = $this->evaluate($this->myLocationLabel);
+        $myLocationButtonLabel = $this->evaluate($this->myLocationButtonLabel);
 
-        if (filled($locationLabel)) {
-            return $locationLabel;
+        if (filled($myLocationButtonLabel)) {
+            return $myLocationButtonLabel;
         }
 
         return config('filament-locationpickr-field.my_location_button');
@@ -178,7 +177,7 @@ class LocationPicker extends Field
                 'statePath' => $this->getStatePath(),
                 'controls' => $this->getMapControls(),
                 'defaultZoom' => $this->getDefaultZoom(),
-                'myLocationLabel' => $this->getMyLocationLabel(),
+                'myLocationButtonLabel' => $this->getMyLocationButtonLabel(),
                 'apiKey' => config('filament-locationpickr-field.key'),
             ]),
             JSON_THROW_ON_ERROR
@@ -198,10 +197,7 @@ class LocationPicker extends Field
             try {
                 return @json_decode($state, true, 512, JSON_THROW_ON_ERROR);
             } catch (Exception $e) {
-                return [
-                    'lat' => 0,
-                    'lng' => 0,
-                ];
+                return $this->getDefaultLocation();
             }
         }
     }

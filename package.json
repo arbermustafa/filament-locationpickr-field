@@ -1,9 +1,9 @@
 {
     "private": true,
     "scripts": {
-        "dev:styles": "npx tailwindcss -i resources/css/components/locationpickr.css -o resources/dist/filament-locationpickr-field.css --postcss --watch",
+        "dev:styles": "npx tailwindcss -i resources/css/forms/components/locationpickr.css -o resources/dist/filament-locationpickr-field.css --postcss --watch",
         "dev:scripts": "node bin/build.js --dev",
-        "build:styles": "npx tailwindcss -i resources/css/components/locationpickr.css -o resources/dist/filament-locationpickr-field.css --postcss --minify && npm run purge",
+        "build:styles": "npx tailwindcss -i resources/css/forms/components/locationpickr.css -o resources/dist/filament-locationpickr-field.css --postcss --minify && npm run purge",
         "build:scripts": "node bin/build.js",
         "format": "npx prettier --write resources/",
         "purge": "filament-purge -i resources/dist/filament-locationpickr-field.css -o resources/dist/filament-locationpickr-field.css",

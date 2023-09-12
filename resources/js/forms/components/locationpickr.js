@@ -25,20 +25,23 @@ export default (Alpine) => {
                 zoomControl: false,
             },
             defaultZoom: 8,
-            myLocationLabel: '',
+            myLocationButtonLabel: '',
             apiKey: '',
         },
+
         init: function () {
             this.location = location
             this.config = { ...this.config, ...config }
             this.loadGmaps()
             this.$watch('location', (value) => this.updateMapFromAlpine())
         },
+
         loadGmaps: function () {
             this.loader = new Loader({
                 apiKey: this.config.apiKey,
                 version: 'weekly',
             })
+
             this.loader
                 .load()
                 .then((google) => {
@@ -47,30 +50,32 @@ export default (Alpine) => {
                         zoom: this.config.defaultZoom,
                         ...this.config.controls,
                     })
+
                     this.infoWindow = new google.maps.InfoWindow()
+
                     this.marker = new google.maps.Marker({
                         draggable: this.config.draggable,
                         map: this.map,
                     })
                     this.marker.setPosition(this.getCoordinates())
+                    this.setCoordinates(this.marker.getPosition())
+
                     if (this.config.clickable) {
                         this.map.addListener('click', (event) => {
-                            this.markerLocation = event.latLng.toJSON()
-                            this.setCoordinates(this.markerLocation)
-                            this.map.panTo(this.markerLocation)
+                            this.markerMoved(event)
                         })
                     }
+
                     if (this.config.draggable) {
                         google.maps.event.addListener(
                             this.marker,
                             'dragend',
                             (event) => {
-                                this.markerLocation = event.latLng.toJSON()
-                                this.setCoordinates(this.markerLocation)
-                                this.map.panTo(this.markerLocation)
+                                this.markerMoved(event)
                             },
                         )
                     }
+
                     const locationButtonDiv = document.createElement('div')
                     locationButtonDiv.classList.add('location-div')
                     locationButtonDiv.appendChild(this.createLocationButton())
@@ -82,10 +87,11 @@ export default (Alpine) => {
                     console.error('Error loading Google Maps API:', error)
                 })
         },
+
         createLocationButton: function () {
             const locationButton = document.createElement('button')
             locationButton.type = 'button'
-            locationButton.textContent = this.config.myLocationLabel
+            locationButton.textContent = this.config.myLocationButtonLabel
             locationButton.classList.add('location-button')
             locationButton.addEventListener('click', (event) => {
                 event.preventDefault()
@@ -115,8 +121,16 @@ export default (Alpine) => {
                     )
                 }
             })
+
             return locationButton
         },
+
+        markerMoved: function (event) {
+            this.markerLocation = event.latLng.toJSON()
+            this.setCoordinates(this.markerLocation)
+            this.map.panTo(this.markerLocation)
+        },
+
         updateMapFromAlpine: function () {
             const location = this.getCoordinates()
             const markerLocation = this.marker.getPosition()
@@ -129,13 +143,16 @@ export default (Alpine) => {
                 this.updateMap(location)
             }
         },
+
         updateMap: function (position) {
             this.marker.setPosition(position)
             this.map.panTo(position)
         },
+
         setCoordinates: function (position) {
             this.$wire.set(this.config.statePath, position)
         },
+
         getCoordinates: function () {
             let location = this.$wire.get(this.config.statePath)
             if (location === null || !location.hasOwnProperty('lat')) {
@@ -144,8 +161,10 @@ export default (Alpine) => {
                     lng: this.config.defaultLocation.lng,
                 }
             }
+
             return location
         },
+
         myLocationError: function (browserHasGeolocation, infoWindow, pos) {
             infoWindow.setPosition(pos)
             infoWindow.setContent(
