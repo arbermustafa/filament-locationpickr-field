@@ -11,21 +11,21 @@ class LocationPickr extends Field
 {
     protected string $view = 'filament-locationpickr-field::forms.components.locationpickr';
 
-    protected int $precision = 8;
+    private int $precision = 8;
 
     protected array | Closure | null $defaultLocation = [0, 0];
 
-    protected Closure | int $defaultZoom = 8;
+    protected int | Closure $defaultZoom = 8;
 
-    protected Closure | bool $draggable = true;
+    protected bool | Closure $draggable = true;
 
-    protected Closure | bool $clickable = false;
+    protected bool | Closure $clickable = false;
 
-    protected Closure | array $mapControls = [];
+    protected array | Closure $mapControls = [];
 
-    protected Closure | string $height = '400px';
+    protected string | Closure $height = '400px';
 
-    protected Closure | string | null $myLocationButtonLabel = 'My location';
+    protected string | Closure | null $myLocationButtonLabel = null;
 
     private array $mapConfig = [
         'draggable' => true,
@@ -50,9 +50,9 @@ class LocationPickr extends Field
         'zoomControl' => false,
     ];
 
-    public function defaultLocation(Closure | array $location): static
+    public function defaultLocation(array | Closure $defaultLocation): static
     {
-        $this->defaultLocation = $location;
+        $this->defaultLocation = $defaultLocation;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class LocationPickr extends Field
         return config('filament-locationpickr-field.default_location');
     }
 
-    public function defaultZoom(Closure | int $defaultZoom): static
+    public function defaultZoom(int | Closure $defaultZoom): static
     {
         $this->defaultZoom = $defaultZoom;
 
@@ -93,7 +93,7 @@ class LocationPickr extends Field
         return config('filament-locationpickr-field.default_zoom');
     }
 
-    public function draggable(Closure | bool $draggable = true): static
+    public function draggable(bool | Closure $draggable = true): static
     {
         $this->draggable = $draggable;
 
@@ -102,10 +102,10 @@ class LocationPickr extends Field
 
     public function getDraggable(): bool
     {
-        return $this->evaluate($this->draggable);
+        return $this->evaluate($this->draggable) ?? config('filament-locationpickr-field.default_draggable');
     }
 
-    public function clickable(Closure | bool $clickable = true): static
+    public function clickable(bool | Closure $clickable = true): static
     {
         $this->clickable = $clickable;
 
@@ -114,10 +114,10 @@ class LocationPickr extends Field
 
     public function getClickable(): bool
     {
-        return $this->evaluate($this->clickable);
+        return $this->evaluate($this->clickable) ?? config('filament-locationpickr-field.default_clickable');
     }
 
-    public function mapControls(Closure | array $controls): static
+    public function mapControls(array | Closure $controls): static
     {
         $this->mapControls = $controls;
 
@@ -129,12 +129,12 @@ class LocationPickr extends Field
      */
     public function getMapControls(): string
     {
-        $controls = $this->evaluate($this->mapControls);
+        $controls = $this->evaluate($this->mapControls) ?? [];
 
         return json_encode(array_merge($this->controls, $controls), JSON_THROW_ON_ERROR);
     }
 
-    public function height(Closure | string $height): static
+    public function height(string | Closure $height): static
     {
         $this->height = $height;
 
@@ -143,25 +143,19 @@ class LocationPickr extends Field
 
     public function getHeight(): string
     {
-        return $this->evaluate($this->height);
+        return $this->evaluate($this->height) ?? config('filament-locationpickr-field.default_height');
     }
 
-    public function myLocationButtonLabel(Closure | string $label): static
+    public function myLocationButtonLabel(string | Closure $myLocationButtonLabel): static
     {
-        $this->myLocationButtonLabel = $label;
+        $this->myLocationButtonLabel = $myLocationButtonLabel;
 
         return $this;
     }
 
     public function getMyLocationButtonLabel(): string
     {
-        $myLocationButtonLabel = $this->evaluate($this->myLocationButtonLabel);
-
-        if (filled($myLocationButtonLabel)) {
-            return $myLocationButtonLabel;
-        }
-
-        return config('filament-locationpickr-field.my_location_button');
+        return $this->evaluate($this->myLocationButtonLabel) ?? config('filament-locationpickr-field.my_location_button');
     }
 
     /**

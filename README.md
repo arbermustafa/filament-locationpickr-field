@@ -1,16 +1,18 @@
 # Filament LocationPickr Field
 
-![](https://banners.beyondco.de/Filament%20LocationPickr%20Field.png?theme=light&packageManager=composer+require&packageName=arbermustafa%2Ffilament-locationpickr-field%3A%22%5E1.0.0%22&pattern=architect&style=style_1&description=Just+a+simple+location+picker+field+for+Filament+Php+using+Google+Maps&md=1&showWatermark=0&fontSize=100px&images=location-marker)
+![](https://banners.beyondco.de/Filament%20LocationPickr%20Field.png?theme=light&packageManager=composer+require&packageName=arbermustafa%2Ffilament-locationpickr-field%3A%22%5E2.0.0%22&pattern=architect&style=style_1&description=Just+a+simple+location+picker+field+for+Filament+Php+using+Google+Maps&md=1&showWatermark=0&fontSize=100px&images=location-marker)
 
 This package provides just a simplified location picker field within [Filament](https://filamentphp.com) using Google Maps based on the excellent work of [Hugh Messenger](https://filamentphp.com/plugins/cheesegrits-google-maps).
 
 ## Installation
 
-You can install the package into a Laravel app that uses [Filament v2.x](https://filamentphp.com) via composer::
+You can install the package into a Laravel app that uses [Filament](https://filamentphp.com) via composer::
 
 ```bash
-composer require arbermustafa/filament-locationpickr-field:"^1.0.0"
+composer require arbermustafa/filament-locationpickr-field:"^2.0.0"
 ```
+
+**Filament V2** - if you are using Filament v2.x, you can use [1.x](https://github.com/arbermustafa/filament-locationpickr-field/tree/1.x) branch.
 
 You can publish the config file with:
 

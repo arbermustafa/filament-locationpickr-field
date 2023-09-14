@@ -2,34 +2,33 @@
 
 namespace ArberMustafa\FilamentLocationPickrField;
 
-use Filament\PluginServiceProvider;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LocationPickrFieldServiceProvider extends PluginServiceProvider
+class LocationPickrFieldServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-locationpickr-field';
 
     public function configurePackage(Package $package): void
     {
-        parent::configurePackage($package);
-
         $package
             ->name(static::$name)
+            ->hasConfigFile()
             ->hasAssets()
-            ->hasConfigFile();
+            ->hasViews();
     }
 
-    protected function getStyles(): array
+    public function packageBooted()
     {
-        return [
-            self::$name . '-styles' => __DIR__ . '/../resources/dist/filament-locationpickr-field.css',
-        ];
-    }
-
-    protected function getBeforeCoreScripts(): array
-    {
-        return [
-            self::$name . '-scripts' => __DIR__ . '/../resources/dist/filament-locationpickr-field.js',
-        ];
+        FilamentAsset::register(
+            assets: [
+                Css::make(static::$name, __DIR__ . '/../resources/dist/filament-locationpickr-field.css'),
+                AlpineComponent::make(static::$name, __DIR__ . '/../resources/dist/filament-locationpickr-field.js'),
+            ],
+            package: 'arbermustafa/filament-locationpickr-field'
+        );
     }
 }

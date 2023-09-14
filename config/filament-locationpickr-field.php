@@ -14,7 +14,13 @@ return [
         'lng' => 19.818383186960773,
     ],
 
-    'default_zoom' => 12,
+    'default_zoom' => 8,
 
-    'my_location_button' => 'My location'
+    'default_draggable' => true,
+
+    'default_clickable' => true,
+
+    'default_height' => '400px',
+
+    'my_location_button' => 'My location',
 ];

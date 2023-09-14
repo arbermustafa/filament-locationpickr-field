@@ -2,18 +2,21 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all",
-    "tailwindConfig": "./tailwind.config.js",
-    "plugins": [
-        "./node_modules/prettier-plugin-blade/",
-        "./node_modules/prettier-plugin-tailwindcss/"
-    ],
+    "plugins": ["@shufo/prettier-plugin-blade"],
     "overrides": [
         {
-            "files": [
-                "*.blade.php"
-            ],
+            "files": ["*.blade.php"],
             "options": {
-                "parser": "blade"
+                "parser": "blade",
+                "printWidth": 120,
+                "tabWidth": 4,
+                "wrapAttributes": "force-expand-multiline",
+                "wrapAttributesMinAttrs": 2,
+                "sortTailwindcssClasses": true,
+                "sortHtmlAttributes": "none",
+                "noPhpSyntaxCheck": false,
+                "indentInnerHtml": true,
+                "extraLiners": ""
             }
         }
     ]

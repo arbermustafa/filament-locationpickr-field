@@ -1,19 +1,16 @@
-<x-forms::field-wrapper
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
+<x-dynamic-component
+    :component="$getFieldWrapperView()"
+    :field="$field"
 >
     <div
-        id="{{ $getId() }}"
-        x-data="locationPickr({
-                    location: $wire.entangle('{{ $getStatePath() }}'),
-                    config: {{ $getMapConfig() }},
-                })"
+        ax-load
+        ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-locationpickr-field', 'arbermustafa/filament-locationpickr-field') }}"
         wire:ignore
+        x-data="locationPickr({
+            location: $wire.$entangle('{{ $getStatePath() }}'),
+            config: {{ $getMapConfig() }},
+        })"
+        x-ignore
     >
         <div
             x-ref="map"
@@ -21,4 +18,4 @@
             style="height: {{ $getHeight() }}"
         ></div>
     </div>
-</x-forms::field-wrapper>
+</x-dynamic-component>
