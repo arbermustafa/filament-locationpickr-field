@@ -7,7 +7,7 @@
         ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-locationpickr-field', 'arbermustafa/filament-locationpickr-field') }}"
         wire:ignore
         x-data="locationPickr({
-            location: $wire.$entangle('{{ $getStatePath() }}'),
+            location: $wire.{{ $applyStateBindingModifiers("\$entangle('{$getStatePath()}')") }},
             config: {{ $getMapConfig() }},
         })"
         x-ignore
