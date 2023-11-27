@@ -2,9 +2,6 @@
     :component="$getEntryWrapperView()"
     :entry="$entry"
 >
-    <div>
-        {{ $getState() }}
-    </div>
     <div
         ax-load
         x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('locationpickr', 'arbermustafa/filament-locationpickr-field'))]"
