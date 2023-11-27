@@ -64,8 +64,12 @@ const defaultOptions = {
     ],
 }
 
-compile({
-    ...defaultOptions,
-    entryPoints: ['./resources/js/index.js'],
-    outfile: './resources/dist/filament-locationpickr-field.js',
+const components = ['field', 'entry']
+
+components.forEach((component) => {
+    compile({
+        ...defaultOptions,
+        entryPoints: [`./resources/js/${component}.js`],
+        outfile: `./resources/dist/${component}.js`,
+    })
 })

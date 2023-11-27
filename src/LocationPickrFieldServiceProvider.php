@@ -25,8 +25,9 @@ class LocationPickrFieldServiceProvider extends PackageServiceProvider
     {
         FilamentAsset::register(
             assets: [
-                Css::make(static::$name, __DIR__ . '/../resources/dist/filament-locationpickr-field.css'),
-                AlpineComponent::make(static::$name, __DIR__ . '/../resources/dist/filament-locationpickr-field.js'),
+                Css::make('locationpickr', __DIR__ . '/../resources/dist/locationpickr.css')->loadedOnRequest(),
+                AlpineComponent::make('locationpickr-field', __DIR__ . '/../resources/dist/field.js'),
+                AlpineComponent::make('locationpickr-entry', __DIR__ . '/../resources/dist/entry.js'),
             ],
             package: 'arbermustafa/filament-locationpickr-field'
         );

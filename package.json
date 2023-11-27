@@ -2,12 +2,12 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-locationpickr-field.css --postcss --watch",
+        "dev:styles": "npx tailwindcss -i resources/css/locationpickr.css -o resources/dist/locationpickr.css --postcss --watch",
         "dev:scripts": "node bin/build.js --dev",
-        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/filament-locationpickr-field.css --postcss --minify && npm run purge",
+        "build:styles": "npx tailwindcss -i resources/css/locationpickr.css -o resources/dist/locationpickr.css --postcss --minify && npm run purge",
         "build:scripts": "node bin/build.js",
         "prettier": "npx prettier --write resources/{**/*,*}.{css,js,jsx,blade.php}",
-        "purge": "filament-purge -i resources/dist/filament-locationpickr-field.css -o resources/dist/filament-locationpickr-field.css -v 3.x",
+        "purge": "filament-purge -i resources/dist/locationpickr.css -o resources/dist/locationpickr.css -v 3.x",
         "dev": "npm-run-all --parallel dev:*",
         "build": "npm run prettier && npm-run-all build:*"
     },

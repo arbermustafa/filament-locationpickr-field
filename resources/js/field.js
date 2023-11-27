@@ -1,21 +1,17 @@
 import { Loader } from '@googlemaps/js-api-loader'
 
-export default function locationPickr({ location, config }) {
+export default function locationPickrField({ location, config }) {
     return {
-        location: null,
-        loader: null,
         map: null,
         marker: null,
         markerLocation: null,
         infoWindow: null,
+        loader: null,
+        location: null,
         config: {
             draggable: true,
             clickable: false,
-            defaultLocation: {
-                lat: 0,
-                lng: 0,
-            },
-            statePath: '',
+            defaultZoom: 8,
             controls: {
                 mapTypeControl: true,
                 scaleControl: true,
@@ -24,9 +20,13 @@ export default function locationPickr({ location, config }) {
                 fullscreenControl: true,
                 zoomControl: false,
             },
-            defaultZoom: 8,
             myLocationButtonLabel: '',
+            defaultLocation: {
+                lat: 0,
+                lng: 0,
+            },
             apiKey: '',
+            statePath: '',
         },
 
         init: function () {
@@ -103,6 +103,7 @@ export default function locationPickr({ location, config }) {
                                 lng: position.coords.longitude,
                             }
                             this.setCoordinates(this.markerLocation)
+                            this.marker.setPosition(this.markerLocation)
                             this.map.panTo(this.markerLocation)
                         },
                         () => {
@@ -155,7 +156,11 @@ export default function locationPickr({ location, config }) {
 
         getCoordinates: function () {
             let location = this.$wire.get(this.config.statePath)
-            if (location === null || !location.hasOwnProperty('lat')) {
+            if (
+                location === null ||
+                !location.hasOwnProperty('lat') ||
+                !location.hasOwnProperty('lng')
+            ) {
                 location = {
                     lat: this.config.defaultLocation.lat,
                     lng: this.config.defaultLocation.lng,

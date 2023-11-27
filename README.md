@@ -144,6 +144,24 @@ use ArberMustafa\FilamentLocationPickrField\Forms\Components\LocationPickr;
 ...
 ```
 
+### Infolist entry
+
+The infolist entry can be used with no options, by simply adding this to your Filament Infolist schema:
+
+```php
+use ArberMustafa\FilamentLocationPickrField\Infolists\Components\LocationPickr;
+...
+
+    ->schema([
+        ...
+        LocationPickr::make('location'),
+        ....
+    ]);
+...
+```
+
+The name used in the `make()` function must be the one you set up as your model's column/computed location property. The components accepts options like `defaultZoom`, `defaultLocation` and `height`.
+
 #### Example usage in simple resource
 
 ![Locationpickr field in modal](./docs/images/locationpickr.png)
