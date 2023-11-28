@@ -9,7 +9,7 @@
 >
     <div
         id="{{ $getId() }}"
-        x-data="locationPickr({
+        x-data="locationPickrField({
                     location: $wire.entangle('{{ $getStatePath() }}'),
                     config: {{ $getMapConfig() }},
                 })"

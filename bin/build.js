@@ -7,7 +7,7 @@ esbuild
             'process.env.NODE_ENV': isDev ? `'development'` : `'production'`,
         },
         entryPoints: ['./resources/js/index.js'],
-        outfile: './resources/dist/filament-locationpickr-field.js',
+        outfile: './resources/dist/locationpickr-field.js',
         bundle: true,
         sourcemap: isDev ? 'inline' : false,
         sourcesContent: isDev,

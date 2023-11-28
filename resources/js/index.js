@@ -1,5 +1,5 @@
-import locationPickr from './forms/components/locationpickr'
+import locationPickrField from './forms/components/locationpickr'
 
 document.addEventListener('alpine:init', () => {
-    window.Alpine.plugin(locationPickr)
+    window.Alpine.plugin(locationPickrField)
 })

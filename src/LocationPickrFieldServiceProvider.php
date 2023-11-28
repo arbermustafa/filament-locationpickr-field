@@ -22,14 +22,14 @@ class LocationPickrFieldServiceProvider extends PluginServiceProvider
     protected function getStyles(): array
     {
         return [
-            self::$name . '-styles' => __DIR__ . '/../resources/dist/filament-locationpickr-field.css',
+            self::$name . '-styles' => __DIR__ . '/../resources/dist/locationpickr-field.css',
         ];
     }
 
     protected function getBeforeCoreScripts(): array
     {
         return [
-            self::$name . '-scripts' => __DIR__ . '/../resources/dist/filament-locationpickr-field.js',
+            self::$name . '-scripts' => __DIR__ . '/../resources/dist/locationpickr-field.js',
         ];
     }
 }
