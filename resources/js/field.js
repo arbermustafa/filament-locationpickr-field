@@ -129,6 +129,7 @@ export default function locationPickrField({ location, config }) {
         markerMoved: function (event) {
             this.markerLocation = event.latLng.toJSON()
             this.setCoordinates(this.markerLocation)
+            this.marker.setPosition(this.markerLocation)
             this.map.panTo(this.markerLocation)
         },
 
